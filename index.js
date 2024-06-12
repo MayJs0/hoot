@@ -36,19 +36,20 @@ client.on('interactionCreate', async(interaction) => {
   
     if ((!mentionDb && user) && cmd?.requiredDb)
     return interaction.reply(`<:avisos:1194279514990198886> | ${interaction.user}, o usuário **${user.username}** não está registrado em meu banco de dados!`);
-try {
-    if(cmd) {
-        cmd.run(client, interaction)
-    }
+    try {
+        if(cmd) {
+            cmd.run(client, interaction)
+        }
     } catch (err) {
       console.log(err);
     }
   }
 })
+
 client.slashCommands = new Discord.Collection();
 client.developers = ['551374220953649181', '755106757038178396']; 
 require('./handlers/indexSlash')(client) // slashCommands loader
 require('./handlers/mongodb') // mongodb connect
 require('./handlers/indexPrefix')(client) // commands loader
 require('./handlers/components')(client) // components loader
-require('./handlers/events')(client) // events loader
+require('./handlers/events/events')(client) // events loader

@@ -1,6 +1,5 @@
 const { Client, Collection } = require("discord.js");
 const Discord = require('discord.js');
-dc = Discord
 const User = require("./Schemas/user");
 const CacheManager = require("./structs/CacheManager");
 require("dotenv").config();
@@ -52,4 +51,4 @@ require('./handlers/indexSlash')(client) // slashCommands loader
 require('./handlers/mongodb') // mongodb connect
 require('./handlers/indexPrefix')(client) // commands loader
 require('./handlers/components')(client) // components loader
-require('./handlers/events/events')(client) // events loader
+require('./handlers/events')(client) // events loader

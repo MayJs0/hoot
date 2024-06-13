@@ -1,21 +1,25 @@
 const guilds = require("../../Schemas/guilds");
 const User = require("../../Schemas/user");
-
+const emojis = require('../../assets/emojis.json')
 module.exports = {
   name: "messageCreate",
   run: async (client, message) => {
-    
     if (message.channel.type === 1)
   return;
     const guilddb = await guilds.findOne({ _id: message.guild.id }) || await guilds.create({ _id: message.guild.id });
     if (message.author.bot) return;
-
+    const authorDb = await User.findById(message.author.id);
     const prefix = guilddb.prefix;
-
-    if (message.content.replace("!", "") === `<@${client.user.id}>`)
-      return message.reply(
-        `<:hoot:1250444495674277928> | Olá ${message.author}, tudo bem? Meu prefixo neste servidor é \`${prefix}\` utilize \`${prefix}help\` para obter ajuda! `
-      );
+    const lang = authorDb?.language;
+    const text = {
+      br: {
+        messageSend: `${emojis.emojis.hoot} | Olá ${message.author}, tudo bem? Meu prefixo neste servidor é \`${prefix}\` utilize \`${prefix}help\` para obter ajuda! `
+      },
+      en: {
+        messageSend: `${emojis.emojis.hoot} | Hello ${message.author}, how are you? My prefix in this server is \`${prefix}\` use \`${prefix}help\` to get help!`
+      }
+    }
+    if (message.content.replace("!", "") === `<@${client.user.id}>`) return message.reply(text[lang].messageSend);
 
     if (!message.content.startsWith(prefix)) return;
 
@@ -29,16 +33,15 @@ module.exports = {
     const user = mentions || client.users.cache.find((u) => args.some((a) => a === u.id || a === u.username));
 
     const mentionDb =  await User.findById(user?.id);
-    const authorDb = await User.findById(message.author.id);
 
     if ((!authorDb && cmd?.requiredDb) && command !== 'registrar')
-    return message.channel.send(`<:avisos:1194279514990198886> | ${message.author}, você não está registrado no meu banco de dados. Use **${prefix}registrar** para se registrar!`);
+    return message.channel.send(`${emojis.emojis.warn} | ${message.author}, você não está registrado no meu banco de dados. Use **${prefix}registrar** para se registrar!`);
   
     if ((!mentionDb && user) && cmd?.requiredDb)
-    return message.channel.send(`<:avisos:1194279514990198886> | ${message.author}, o usuário **${user.username}** não está registrado em meu banco de dados!`);
+    return message.channel.send(`${emojis.emojis.warn} | ${message.author}, o usuário **${user.username}** não está registrado em meu banco de dados!`);
 try {
     if(cmd) {
-        cmd.run(client, message, args)
+        cmd.run({client, message, args, authorDb})
         }
     } catch (err) {
       console.log(err);

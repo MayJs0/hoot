@@ -1,6 +1,15 @@
 module.exports = {
     name: "help",
-    run: async (client,message) => {
-    message.reply(`Coming Soon!`)
-  
-  }};
+    requiredDb: true,
+    run: async ({client, message, authorDb}) => {
+      const text = {
+        br: {
+          messageSend: "Em breve"
+        },
+        en: {
+          messageSend: "Coming Soon!"
+        }
+      }
+      message.reply(text[authorDb.language].messageSend)
+    }
+};

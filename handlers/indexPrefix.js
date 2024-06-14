@@ -11,7 +11,7 @@ try {
         client.commands.set(cmds.name, cmds);
       });
     });
-    colorize('[[COMMANDS](#1E90FF)] carregados!', true)
+    colorize('[[COMMANDS 🔧](#1E90FF)] carregados!', true)
   } catch (err) {
     console.log(err);
   }

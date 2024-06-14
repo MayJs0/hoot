@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const User = require('../../../Schemas/user');
+const emojis = require('../../../assets/emojis.json');
 module.exports = {
     name: 'set',
     description: '｢Utility｣ Set the language of the bot',
@@ -7,7 +8,7 @@ module.exports = {
     options: [
         {
             name: 'language',
-            description: 'Choose the language you want to set',
+            description: '｢Utility｣ Choose the language you want to set',
             type: 1,
             options: [{
                 name: 'language',
@@ -27,9 +28,9 @@ module.exports = {
             }]
         }
     ],
-    run: async (client, interaction) => {
+    run: async ({client, interaction}) => {
         const language = interaction.options.getString('language');
-        interaction.reply(language === 'en' ? 'Language set to English' : 'Idioma definido para Português Brasil')
+        interaction.reply({content: `${emojis.emojis.world} | ${language === 'en' ? 'Language set to **English**!' : 'Idioma definido para **Português Brasil**!'}`})
         await User.updateOne({_id: interaction.user.id}, {
             $set: {
                 language: language

@@ -3,7 +3,7 @@ const colorize = require('strcolorize');
 module.exports = {
     name: 'ready',
     run: async(client) => { 
-        colorize('[[HOOT](#5f9ea0)] conectado!', true)
+        colorize('[[HOOT 🦉](#5f9ea0)] conectado!', true)
         const status = [
             {
                 name: `In development`,

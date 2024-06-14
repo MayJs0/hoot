@@ -21,6 +21,7 @@ cm.addProp('casado');
 client.cm = cm;
 // interactioncreate
 client.on('interactionCreate', async(interaction) => {
+  const userdb = await User.findById(interaction.user.id);
   if (interaction.type === Discord.InteractionType.ApplicationCommand) {
     const cmd = client.slashCommands.get(interaction.commandName);
     if (!cmd) return interaction.reply(`Error`);
@@ -37,7 +38,7 @@ client.on('interactionCreate', async(interaction) => {
     return interaction.reply(`<:avisos:1194279514990198886> | ${interaction.user}, o usuário **${user.username}** não está registrado em meu banco de dados!`);
     try {
         if(cmd) {
-            cmd.run(client, interaction)
+            cmd.run({client, interaction, userdb})
         }
     } catch (err) {
       console.log(err);

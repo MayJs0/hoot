@@ -6,7 +6,7 @@ module.exports = {
         colorize('[[HOOT 🦉](#5f9ea0)] conectado!', true)
         const status = [
             {
-                name: `In development`,
+                name: `In development 🦉`,
                 type: ActivityType.Custom,
             }
         ]

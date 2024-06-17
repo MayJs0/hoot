@@ -5,6 +5,7 @@ module.exports = {
     name: 'panel',
     description: "｢Moderation｣ Configure your server",
     type: 1,
+    requiredDb: true,
     run: async({client, interaction, userdb}) => {
         const userLang = userdb.language;
         const Guild = await guilds.findOne({ _id: interaction.guild.id });

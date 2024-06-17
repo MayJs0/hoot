@@ -10,13 +10,13 @@ module.exports = {
     if (message.author.bot) return;
     const authorDb = await User.findById(message.author.id);
     const prefix = guilddb.prefix;
-    const lang = authorDb?.language;
+    const lang = authorDb?.language ?? 'br';
     const text = {
       br: {
-        messageSend: `${emojis.emojis.hoot} | Olá ${message.author}, tudo bem? Meu prefixo neste servidor é \`${prefix}\` utilize \`${prefix}help\` para obter ajuda! `
+        messageSend: `${emojis.emojis.hoot} | Olá ${message.author}, tudo bem? Meu prefixo neste servidor é \`${prefix}\` utilize \`${prefix}help\` para obter ajuda! \n${emojis.emojis.world} | Use </set language:1250617213891907616> para alterar meu idioma com você!`
       },
       en: {
-        messageSend: `${emojis.emojis.hoot} | Hello ${message.author}, how are you? My prefix in this server is \`${prefix}\` use \`${prefix}help\` to get help!`
+        messageSend: `${emojis.emojis.hoot} | Hello ${message.author}, how are you? My prefix in this server is \`${prefix}\` use \`${prefix}help\` to get help! \n${emojis.emojis.world} | Use </set language:1250617213891907616> to change my language with you!`
       }
     }
     if (message.content.replace("!", "") === `<@${client.user.id}>`) return message.reply(text[lang].messageSend);
@@ -35,10 +35,10 @@ module.exports = {
     const mentionDb =  await User.findById(user?.id);
 
     if ((!authorDb && cmd?.requiredDb) && command !== 'registrar')
-    return message.channel.send(`${emojis.emojis.warn} | ${message.author}, você não está registrado no meu banco de dados. Use **${prefix}registrar** para se registrar!`);
+    return message.channel.send(`${emojis.emojis.warn} | ${message.author}, you are not registered in my database. Use </register:1250629036783173654> to register!`);
   
     if ((!mentionDb && user) && cmd?.requiredDb)
-    return message.channel.send(`${emojis.emojis.warn} | ${message.author}, o usuário **${user.username}** não está registrado em meu banco de dados!`);
+    return message.channel.send(`${emojis.emojis.warn} | ${message.author}, the user **${user.username}** is not registered in my database!`);
 try {
     if(cmd) {
         cmd.run({client, message, args, authorDb})

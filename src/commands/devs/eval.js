@@ -3,6 +3,7 @@ const emojis = require('../../../assets/emojis.json');
 module.exports = {
     name: "eval",
     aliases: ['e'],
+    caterogy: 'devs',
 run: async({client, message, args}) => {
 try {
     if (!client.developers.includes(message.author.id)) return message.channel.send(`${emojis.emojis.incorrect} | Só meus devs podem executar este comando!`)
@@ -24,7 +25,7 @@ try {
 } catch (err) {
         let entrada = args.join(" ");
     const embed = new EmbedBuilder()
-    .setTitle('<:2_smirk:1189391265356333157> Eval')
+    .setTitle(`${emojis.emojis.warn} Eval`)
     .setColor('#303136')
     .addFields(
         { name: `${emojis.emojis.join} Entrada:`, value: `\`\`\`js\n${entrada}\`\`\`` },

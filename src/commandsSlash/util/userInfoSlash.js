@@ -21,7 +21,7 @@ module.exports = {
   ],
   run: async ({ client, interaction, userdb }) => {
     const user = interaction.options.getUser("user") || interaction.user;
-    const userlang = userdb.language;
+    const userlang = userdb?.language ?? "br";
     let member = interaction.guild.members.cache.get(user.id);
 
     let badges = user.flags.toArray();

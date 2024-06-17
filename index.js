@@ -1,6 +1,5 @@
 const { Client, Collection } = require("discord.js");
 const Discord = require('discord.js');
-const User = require("./Schemas/user");
 const CacheManager = require("./structs/CacheManager");
 require("dotenv").config();
 const client = new Client({ intents: 3276799 });
@@ -19,32 +18,6 @@ cm.addProp('rank');
 cm.addProp('casado');
 
 client.cm = cm;
-// interactioncreate
-client.on('interactionCreate', async(interaction) => {
-  const userdb = await User.findById(interaction.user.id);
-  if (interaction.type === Discord.InteractionType.ApplicationCommand) {
-    const cmd = client.slashCommands.get(interaction.commandName);
-    if (!cmd) return interaction.reply(`Error`);
-    interaction["member"] = interaction.guild.members.cache.get(interaction.user.id);
-    //cmd.run(client, interaction)
-    const user = interaction.options.getUser('user') || interaction.user;
-    const mentionDb =  await User.findById(user?.id);
-    const authorDb = await User.findById(interaction.user.id);
-
-    if ((!authorDb && cmd?.requiredDb) && interaction.commandName !== 'registrar')
-    return interaction.reply(`<:avisos:1194279514990198886> | ${interaction.user}, você não está registrado no meu banco de dados. Use **/registrar** para se registrar!`);
-  
-    if ((!mentionDb && user) && cmd?.requiredDb)
-    return interaction.reply(`<:avisos:1194279514990198886> | ${interaction.user}, o usuário **${user.username}** não está registrado em meu banco de dados!`);
-    try {
-        if(cmd) {
-            cmd.run({client, interaction, userdb})
-        }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-})
 
 client.slashCommands = new Discord.Collection();
 client.developers = ['551374220953649181', '755106757038178396']; 

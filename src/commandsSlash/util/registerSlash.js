@@ -17,7 +17,7 @@ module.exports = {
       },
     }
     if (userdb)return interaction.reply(`${emojis.emojis.warn} | ${interaction.user}, ${text[userdb.language].errorMsg}!`);
-    interaction.reply({ content: `${text[userdb.language].messageSend}`});
+    interaction.reply({ content: `${emojis.emojis.correct} | ${text[userdb?.language ?? 'br'].messageSend}`});
     await User.create({ _id: interaction.user.id });
   },
 };

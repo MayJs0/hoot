@@ -4,7 +4,7 @@ module.exports = {
     name: 'interactionCreate',
     run: async (client, interaction) => {
         const userdb = await User.findById({ _id: interaction.user.id });
-        const userLang = userdb.language;
+        const userLang = userdb?.language ?? 'br';
         const texts = {
             br: {
                 notInteraction: "Esta interação não é para você!",
@@ -27,7 +27,7 @@ module.exports = {
             const buttonData = client.components.get(interactionId);
 
             if (buttonData?.authorOnly && interaction.user.id !== args[0])
-            return interaction.reply({ content: `${emojis.emojis.warn} | ${texts[userLang].lostData}`, ephemeral: true})
+            return interaction.reply({ content: `${emojis.emojis.warn} | ${texts[userLang].notInteraction}`, ephemeral: true})
 
             if (buttonData) buttonData.execute({client, interaction, userdb, args});
         }
@@ -38,7 +38,7 @@ module.exports = {
             const stringMenuData = client.components.get(interactionId);
 
             if (stringMenuData?.authorOnly && interaction.user.id !== args[0])
-            return interaction.reply({ content: `${emojis.emojis.warn} | ${texts[userLang].lostData}`, ephemeral: true})
+            return interaction.reply({ content: `${emojis.emojis.warn} | ${texts[userLang].notInteraction}`, ephemeral: true})
 
             if (stringMenuData) stringMenuData.execute({client, interaction, userdb, args});
         }
@@ -49,7 +49,7 @@ module.exports = {
             const modalSubmitData = client.components.get(interactionId);
 
             if (modalSubmitData?.authorOnly && interaction.user.id !== args[0])
-            return interaction.reply({ content: `${emojis.emojis.warn} | ${texts[userLang].lostData}`, ephemeral: true})
+            return interaction.reply({ content: `${emojis.emojis.warn} | ${texts[userLang].notInteraction}`, ephemeral: true})
 
             if (modalSubmitData) modalSubmitData.execute({client, interaction, userdb, args});
         }

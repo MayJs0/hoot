@@ -11,7 +11,7 @@ module.exports = {
     }],
     run: async({client,interaction, userdb}) => {
         const owner = interaction.guild.members.cache.get(interaction.guild.ownerId).user;
-        const userLang = userdb.language;
+        const userLang = userdb?.language ?? 'br';
         const embed = new Discord.EmbedBuilder()
         .setTitle(`${emojis.emojis.list} | ${userLang === 'en' ? `Information of ${interaction.guild.name}` : `Informações de ${interaction.guild.name}`}`)
         .setDescription(`${interaction.guild.description == null ? `${userLang === 'en' ? "No description defined" : 'Nenhuma descrição definida'}` : interaction.guild.description}`)

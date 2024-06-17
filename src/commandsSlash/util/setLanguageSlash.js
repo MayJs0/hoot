@@ -28,6 +28,7 @@ module.exports = {
             }]
         }
     ],
+    requiredDb: true,
     run: async ({client, interaction}) => {
         const language = interaction.options.getString('language');
         interaction.reply({content: `${emojis.emojis.world} | ${language === 'en' ? 'Language set to **English**!' : 'Idioma definido para **Português Brasil**!'}`})

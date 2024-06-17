@@ -62,7 +62,13 @@ module.exports = {
             .setLabel(`${userLang === 'en' ? "Enable antilink" : 'Ativar antilink'}`)
             .setValue('antilink')
             .setEmoji(`${emojis.emojis.link}`)
-            .setDefault(false)
+            .setDefault(false),
+
+            new Discord.StringSelectMenuOptionBuilder()
+            .setLabel(`${userLang === 'en' ? "Tickets System" : 'Sistema de Tickets'}`)
+            .setValue('ticketConfigure')
+            .setEmoji(`${emojis.emojis.message}`)
+            .setDefault(false),
         )
 
         const rowOpcoes = new Discord.ActionRowBuilder().addComponents(opcoes);

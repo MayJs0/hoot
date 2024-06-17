@@ -14,5 +14,16 @@ const guild = new mongoose.Schema({
     channel: {type: String, required: false},
     channelLogs: {type: String, required: false},
     antilink: {type: Boolean, required: false, default: false},
+    ticket: {
+        status: { type: Boolean, default: false },
+        channels: {
+            category: { type: String, required: false },
+            channelLogs: { type: String, required: false },
+            channelTranscripts: { type: String, required: false },
+        },
+        role: {
+            id: { type: String, required: false },
+         }
+    }
 })
 module.exports = mongoose.model("Guilds", guild)

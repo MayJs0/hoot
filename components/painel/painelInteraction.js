@@ -110,5 +110,54 @@ module.exports = {
             interaction.update({embeds: [embed], components: [rowButtons]});
         }
 
+        if(values === 'ticketConfigure'){
+            const category = guildId.ticket.channels.category ?? `${userLang === 'en' ? 'None' : 'Nenhum'}`
+            const canalLogs = guildId.ticket.channels.channelLogs ?? `${userLang === 'en' ? 'None' : 'Nenhum'}`
+            const canalTranscripts = guildId.ticket.channels.channelTranscripts ?? `${userLang === 'en' ? 'None' : 'Nenhum'}`
+            const roles = guildId.ticket.role.id ?? `${userLang === 'en' ? 'None' : 'Nenhum'}`
+
+
+            embed.setTitle(`${emojis.emojis.message} | ${userLang === 'en' ? 'Tickets System' : 'Sistema de Tickets'}`)
+            .setDescription(`${emojis.emojis.config2} | ${userLang === 'en' ? `Configure the tickets system for the server ${interaction.guild.name}` : `Configure o sistema de tickets para o servidor ${interaction.guild.name}`}`)
+            .addFields(
+                {name: `${userLang === 'en' ? 'Category' : 'Categoria'} ${emojis.emojis.category}`, value: `${category}`, inline: true},
+                {name: `${userLang === 'en' ? 'Logs Channel' : 'Canal de logs'} ${emojis.emojis.anonime}`, value: `${canalLogs}`, inline: true},
+                {name: `${userLang === 'en' ? 'Transcripts Channel' : 'Canal de transcrições'} ${emojis.emojis.save}`, value: `${canalTranscripts}`, inline: true},
+                {name: `${userLang === 'en' ? 'Roles Staff' : 'Cargos de staff'} ${emojis.emojis.tag}`, value: `${roles}`, inline: true},
+            )
+            const botaoEmbedConfig = new Discord.ButtonBuilder()
+            .setCustomId(`optionsPanel-${interaction.user.id}-embedTicketConfig`)
+            .setLabel(`${userLang === 'en' ? 'Embed configuration' : 'Configuração do embed'}`)
+            .setEmoji(emojis.emojis.config)
+            .setStyle(Discord.ButtonStyle.Primary);
+
+            const botaoCategory = new Discord.ButtonBuilder()
+            .setCustomId(`optionsPanel-${interaction.user.id}-categoryTicket`)
+            .setLabel(`${userLang === 'en' ? 'Category' : 'Categoria'}`)
+            .setEmoji(emojis.emojis.category)
+            .setStyle(Discord.ButtonStyle.Primary);
+
+            const botaoLogsTickets = new Discord.ButtonBuilder()
+            .setCustomId(`optionsPanel-${interaction.user.id}-logsTicketCanal`)
+            .setLabel(`${userLang === 'en' ? 'Logs Channel' : 'Canal de logs'}`)
+            .setEmoji(emojis.emojis.anonime)
+            .setStyle(Discord.ButtonStyle.Secondary);
+
+            const botaoTranscriptsTickets = new Discord.ButtonBuilder()
+            .setCustomId(`optionsPanel-${interaction.user.id}-transcriptsTicketCanal`)
+            .setLabel(`${userLang === 'en' ? 'Ticket transcripts' : 'Transcrições de tickets'}`)
+            .setEmoji(emojis.emojis.save)
+            .setStyle(Discord.ButtonStyle.Secondary);
+
+            const botaoRolesStaff = new Discord.ButtonBuilder()
+            .setCustomId(`optionsPanel-${interaction.user.id}-rolesStaff`)
+            .setLabel(`${userLang === 'en' ? 'Staff roles' : 'Cargos de staff'}`)
+            .setEmoji(emojis.emojis.tag)
+            .setStyle(Discord.ButtonStyle.Primary);
+
+            const row = new Discord.ActionRowBuilder().addComponents(botaoEmbedConfig, botaoCategory , botaoRolesStaff);
+            const rowButtons = new Discord.ActionRowBuilder().addComponents(botaoLogsTickets, botaoTranscriptsTickets, botaoVoltar);
+            interaction.update({embeds: [embed], components: [row, rowButtons]});
+        }
     }
 }

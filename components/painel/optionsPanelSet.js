@@ -5,7 +5,7 @@ module.exports = {
     name: 'optionsPanel',
     authorOnly: true,
     execute: async ({client, interaction, userdb, args}) => {
-        const guildId = await Guild.findById({_id: interaction.guild.id});
+        const guildId = await Guild.findOne({_id: interaction.guild.id});
         const userLang = userdb.language;
         const texts = {
             br: {
@@ -39,32 +39,33 @@ module.exports = {
             const value = interaction.values[0];
             const channel = interaction.guild.channels.cache.get(value);
             interaction.update({content: `${texts[userLang].selectWelcome.replace('[canal]', `${channel.name}`)}`, components: [rowButton], embeds: []});
-            /*await Guild.updateOne({ _id: interaction.guild.id },{
+            await Guild.updateOne({ _id: interaction.guild.id },{
                 $set: {
                   channel: channel.id,
                   welcome: true,
                 },
               });
-                */
         }
+
         if(args[1] === "logsselect"){
             const value = interaction.values[0];
             const channel = interaction.guild.channels.cache.get(value);
             interaction.update({content: `${texts[userLang].logsSelect.replace('[canal]', `${channel.name}`)}`, components: [rowButton], embeds: []});
-            /*await Guild.updateOne({ _id: interaction.guild.id },{
+            await Guild.updateOne({ _id: interaction.guild.id },{
                 $set: {
                     channelLogs: channel.id,
                     logs: true,
                 },
-            });*/
+            });
         }
+
         if(args[1] === "removeAutoRole"){
             interaction.reply({content: `${texts[userLang].removeRole.replace('[cargo]', `<@&${guildId.role.id.replace("-","><@&")}>`)}`, components: [rowButton], embeds: [], ephemeral: true});
-            /*await Guild.updateOne({ _id: interaction.guild.id },{
-                    set: {
+            await Guild.updateOne({ _id: interaction.guild.id },{
+                    $set: {
                         role: { r: false, id: "Nenhum" },
                     },
-            });*/
+            });
         }
 
         if(args[1] === "selectAutoRole"){
@@ -78,34 +79,34 @@ module.exports = {
                 }
             }
             interaction.update({content: `${texts[userLang].sendOkRole.replace('[array]', `${roleArray.join(", ")}`)}`, components: [rowButton]});
-            /*await Guild.updateOne({ _id: interaction.guild.id },{
+            await Guild.updateOne({ _id: interaction.guild.id },{
                 $set: {
                     role: { r: true, id: values.join("-") },
                 },
-            });*/
+            });
         }
         if(args[1] === "buttonAntiLink"){
-            let mensagem = `${emojis.emojis.warn} | ${interaction.user}, ${Guild.antilink? `${userLang === 'en' ? 'the __anti-link__ system has been deactivated in this server!' : 'o sistema de __antilink__ foi desativado neste servidor!'}` : `${userLang === 'en' ? 'the __anti-link__ system has been activated in this server!' : 'o sistema de __antilink__ foi ativado neste servidor!'}`}`;
-            /*await Guild.updateOne({ _id: interaction.guild.id },{
-                antilink: Guild.antilink ? false : true,
-            });*/
+            let mensagem = `${emojis.emojis.warn} | ${interaction.user}, ${guildId.antilink ? `${userLang === 'en' ? 'the __anti-link__ system has been deactivated in this server!' : 'o sistema de __antilink__ foi desativado neste servidor!'}` : `${userLang === 'en' ? 'the __anti-link__ system has been activated in this server!' : 'o sistema de __antilink__ foi ativado neste servidor!'}`}`;
+            await Guild.updateOne({ _id: interaction.guild.id },{
+                antilink: guildId.antilink ? false : true,
+            });
             return interaction.update({content: mensagem, ephemeral: true, components: [rowButton], embeds: []});
         }
         
         if(args[1] === "removeWelcome"){
             interaction.update({content: `${texts[userLang].removeChannelWelcome.replace('[canal]',`<#${guildId.channel}>`)}`, components: [rowButton], embeds: []});
-            /*await Guild.updateOne({ _id: interaction.guild.id },{
+            await Guild.updateOne({ _id: interaction.guild.id },{
                 channel: "Nenhum",
                 welcome: "false",
-            });*/
+            });
         }
         
         if(args[1] === "removelogs"){
             interaction.update({content: `${texts[userLang].removeChannelLogs.replace('[canal]',`<#${guildId.channelLogs}>`)}`, components: [rowButton], embeds: []});
-            /*await Guild.updateOne({ _id: interaction.guild.id },{
+            await Guild.updateOne({ _id: interaction.guild.id },{
                 channelLogs: "Nenhum",
                 logs: false,
-            });*/
+            });
         }
 
         if(args[1] === "alterarMsgJoin"){
@@ -187,7 +188,7 @@ module.exports = {
             .setTitle(`${userLang === 'en' ? 'Current messages' : 'Mensagens atuais'} ${emojis.emojis.list2}`)
             .addFields(
                 {name: `${userLang === 'en' ? 'Welcome message' : 'Mensagem de boas-vindas'} ${emojis.emojis.join}`, value: `${guildId.welcomeMessage ?? `${emojis.emojis.join} Boas-vindas ao servidor! \n ${emojis.emojis.announcement} Leia as nossas ${interaction.guild.rulesChannelId === null ? 'regras' : `<#${interaction.guild.rulesChannelId}>`} para viver de bem conosco!\n${emojis.emojis.escudo} Precisa de ajuda? Entre em contato com a equipe do servidor!`}`},
-                {name: `${userLang === 'en' ? 'Leave message' : 'Mensagem de saída'} ${emojis.emojis.leave}`, value: `${guildId.leaveMessage ?? `${emojis.emojis.leave} | **{member}** saiu do nosso servidor! Espero que um dia ele volte para se divertir conosco novamente!`}`}
+                {name: `${userLang === 'en' ? 'Leave message' : 'Mensagem de saída'} ${emojis.emojis.leave}`, value: `${guildId.leaveMessage ?? `👋 | **{member}** saiu do nosso servidor! Espero que um dia ele volte para se divertir conosco novamente!`}`}
             )
             .setColor('#5f9ea0')
             interaction.reply({components: [], embeds: [embed], ephemeral: true});
@@ -238,11 +239,11 @@ module.exports = {
     
             const rowOpcoes = new Discord.ActionRowBuilder().addComponents(opcoes);
     
-            const canal = guildId.channel ?? `${texts2[userLang].none}`
-            const canalLogs = guildId.channelLogs ?? `${texts2[userLang].none}`
+            const canal = guildId.channel ?? `Nenhum`
+            const canalLogs = guildId.channelLogs ?? `Nenhum`
             const statusAntilink = guildId.antilink
-            const cargo = guildId.role.id ?? `${texts2[userLang].none}`
-    
+            const cargo = guildId.role.id ?? `Nenhum`
+
             const embed = new Discord.EmbedBuilder()
             .setTitle(`${emojis.emojis.config} | Painel de configuração`)
             .addFields(
@@ -253,12 +254,12 @@ module.exports = {
                 },
                 {
                     name: `${userLang === 'en' ? 'Reception channel' : 'Canal de recepção'} ${emojis.emojis.join}`,
-                    value: `${canal == "Nenhum" || "None" ? `${texts2[userLang].none}` : `<#${canal}>`}`,
+                    value: `${canal == `Nenhum` ? `${texts2[userLang].none}` : `<#${canal}>`}`,
                     inline: false,
                 },
                 {
                     name: `${userLang === 'en' ? 'Log channel' : 'Canal de logs'} ${emojis.emojis.anonime}`,
-                    value: `${canalLogs == "Nenhum" || "None" ? `${texts2[userLang].none}` : `<#${canalLogs}>`}`,
+                    value: `${canalLogs == `Nenhum` ? `${texts2[userLang].none}` : `<#${canalLogs}>`}`,
                     inline: true,
                 },
                 {
@@ -268,7 +269,7 @@ module.exports = {
                 },
                 {
                     name: `Autorole ${emojis.emojis.medal}`,
-                    value: `${cargo == "Nenhum" || "None" ? `${texts2[userLang].none}` : `<@&${cargo.replace("-", "><@&")}>`}`,
+                    value: `${cargo == `Nenhum` ? `${texts2[userLang].none}` : `<@&${cargo.replace("-", "><@&")}>`}`,
                     inline: true,
                 }
             )

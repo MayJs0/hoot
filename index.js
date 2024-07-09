@@ -2,7 +2,7 @@ const { Client, Collection } = require("discord.js");
 const Discord = require('discord.js');
 const CacheManager = require("./structs/CacheManager");
 require("dotenv").config();
-const client = new Client({ intents: 3276799 });
+const client = new Client({ intents: 3276543 });
 client.commands = new Collection();
 client.components = new Collection()
 client.login(process.env.TOKEN);

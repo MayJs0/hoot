@@ -21,7 +21,7 @@ const guild = new mongoose.Schema({
             channelLogs: { type: String, required: false },
             channelTranscripts: { type: String, required: false },
         },
-        role: {
+        roles: {
             id: { type: String, required: false },
          }
     }

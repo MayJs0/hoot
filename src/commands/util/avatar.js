@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const emojis = require('../../../assets/emojis.json');
 module.exports = {
     name: "avatar",
+    requiredDb: true,
     type: 1,
     run: async({client, message, authorDb, args}) => {
         const userLang = authorDb.language;

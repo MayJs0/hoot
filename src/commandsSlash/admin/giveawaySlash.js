@@ -3,6 +3,7 @@ const emojis = require("../../../assets/emojis.json");
 module.exports = {
   name: "giveaway",
   description: "｢Moderation｣ Create a cool giveaway for your server!",
+  requiredDb: true,
   run: async ({client, interaction, userdb}) => {
     const userLang = userdb.language;
     // !message.guild.members.me.permissions.has('SendMessages')

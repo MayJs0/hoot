@@ -3,6 +3,7 @@ const emojis = require('../../../assets/emojis.json');
 module.exports = {
     name: "icon",
     description: "｢Utility｣ Visualize the server icon",
+    requiredDb: true,
     type: Discord.ApplicationCommandOptionType.Subcommand,
     options: [{
         name: "server",

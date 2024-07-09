@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const emojis = require('../../../assets/emojis.json');
 module.exports = {
     name: "avatar",
-    description: "｢Utility｣ Vizualize your avatar!",
+    description: "｢Utility｣ Vizualize your avatar",
     type: 1,
     options: [{
         name: "user",

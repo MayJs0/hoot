@@ -73,10 +73,10 @@ module.exports = {
 
         const rowOpcoes = new Discord.ActionRowBuilder().addComponents(opcoes);
 
-        const canal = Guild.channel ?? `${texts[userLang].none}`
-        const canalLogs = Guild.channelLogs ?? `${texts[userLang].none}`
+        const canal = Guild.channel ?? `Nenhum`
+        const canalLogs = Guild.channelLogs ?? `Nenhum`
         const statusAntilink = Guild.antilink
-        const cargo = Guild.role.id ?? `${texts[userLang].none}`
+        const cargo = Guild.role.id ?? `Nenhum`
 
         const embed = new Discord.EmbedBuilder()
         .setTitle(`${emojis.emojis.config} | Painel de configuração`)
@@ -88,12 +88,12 @@ module.exports = {
             },
             {
                 name: `${userLang === 'en' ? 'Reception channel' : 'Canal de recepção'} ${emojis.emojis.join}`,
-                value: `${canal == "Nenhum" || "None" ? `${texts[userLang].none}` : `<#${canal}>`}`,
+                value: `${canal == 'Nenhum' ? `${texts[userLang].none}` : `<#${canal}>`}`,
                 inline: false,
             },
             {
                 name: `${userLang === 'en' ? 'Log channel' : 'Canal de logs'} ${emojis.emojis.anonime}`,
-                value: `${canalLogs == "Nenhum" || "None" ? `${texts[userLang].none}` : `<#${canalLogs}>`}`,
+                value: `${canalLogs == 'Nenhum' ? `${texts[userLang].none}` : `<#${canalLogs}>`}`,
                 inline: true,
             },
             {
@@ -103,7 +103,7 @@ module.exports = {
             },
             {
                 name: `Autorole ${emojis.emojis.medal}`,
-                value: `${cargo == "Nenhum" || "None" ? `${texts[userLang].none}` : `<@&${cargo.replace("-", "><@&")}>`}`,
+                value: `${cargo == 'Nenhum' ? `${texts[userLang].none}` : `<@&${cargo.replace("-", "><@&")}>`}`,
                 inline: true,
             }
         )
